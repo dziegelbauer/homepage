@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head th:replace="~{fragments/header :: head}">
+  <title></title>
+</head>
+<body>
+  <header th:replace="~{fragments/header :: header}"></header>
+
+  <div class="container pb-2">
+    <!--/*@thymesVar id="dto" type="org.ziegelbauer.homepage.models.dto.ModifyUserDTO"*/-->
+    <form method="post" th:object="${dto}">
+      <input type="hidden" th:field="*{id}"/>
+      <div class="row pb-2">
+        <div class="col form-group">
+          <label for="firstName" class="form-label">First Name:</label>
+          <input th:field="*{firstName}" id="firstName" type="text" class="form-control" placeholder="First Name"/>
+        </div>
+        <div class="col form-group">
+          <label for="lastName" class="form-label">Last Name:</label>
+          <input th:field="*{lastName}" id="lastName" type="text" class="form-control" placeholder="Last Name"/>
+        </div>
+      </div>
+      <div class="row pb-2">
+        <div class="col form-group">
+          <label for="isAdmin" class="form-check-label">Admin Account:</label>
+          <input th:field="*{admin}" type="checkbox" id="isAdmin" class="form-check-input"/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col form-group">
+          <input type="submit" value="Save" class="btn btn-primary"/>
+        </div>
+        <div class="col form-group">
+          <a th:href="@{/users}" class="btn btn-danger">Cancel</a>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

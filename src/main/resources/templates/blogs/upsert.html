@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head th:replace="~{fragments/header :: head}">
+  <title></title>
+</head>
+<body>
+  <header th:replace="~{fragments/header :: header}"></header>
+
+  <div class="container m-3">
+    <form action="#" th:action="@{/blogs/upsert}" th:object="${dto}" method="post">
+      <input type="hidden" th:field="*{id}"/>
+      <input type="hidden" th:field="*{author}"/>
+      <div class="row">
+        <div class="col-4 pb-2">
+          <label for="blogTitle" th:field="*{title}" class="form-label">Title:</label>
+          <input id="blogTitle" type="text" th:field="*{title}" class="form-control" placeholder="Title"/>
+        </div>
+      </div>
+      <div class="row pl-2">
+        <label for="blogBody" th:field="*{body}" class="form-label">Body:</label>
+        <textarea id="blogBody" th:field="*{body}" class="form-control"></textarea>
+      </div>
+      <div class="row pt-2">
+        <div class="col-1">
+          <input type="submit" value="Publish" class="btn btn-primary"/>
+        </div>
+        <div class="col-1 pl-1">
+          <a th:href="@{/blogs/manage}" class="btn btn-danger">Back</a>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script src="https://cdn.tiny.cloud/1/x50dm1j620e6m1k0fe8u9bnvbtzn89c52v16vv004cyd15z7/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+  <script>
+    tinymce.init({
+      selector: 'textarea',
+      plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+      toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+    });
+  </script>
+
+  <footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head th:replace="~{fragments/header :: head}">
+    <title></title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<div class="container">
+    <table>
+        <thead>
+        <tr>
+            <th class="p-1">User</th>
+            <th class="p-1">Email</th>
+            <th class="p-1">Admin</th>
+            <th class="p-1"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--/*@thymesVar id="users" type="java.lang.Iterable<org.ziegelbauer.homepage.models.User>"*/-->
+        <tr th:each="user : ${users}">
+            <td class="p-1" th:text="${user.displayName}"></td>
+            <td class="p-1" th:text="${user.email}"></td>
+            <td class="text-center p-1">
+                <i th:if="${user.isAdmin()}" class="bi bi-check-lg"></i>
+            </td>
+            <td class="p-1">
+                <!--/*@thymesVar id="dto" type="org.ziegelbauer.homepage.models.dto.DeleteUserDTO"*/-->
+                <form method="post" th:action="@{/users/delete}" th:object="${dto}" class="inline">
+                    <a th:href="@{/users/modify/{id}(id=${user.id})}" class="btn btn-primary inline">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <input type="hidden" th:field="*{id}" th:value="${user.id}">
+                    <a onclick="this.parentNode.submit();" class="btn btn-danger">
+                        <i class="bi bi-x-square-fill"></i>
+                    </a>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

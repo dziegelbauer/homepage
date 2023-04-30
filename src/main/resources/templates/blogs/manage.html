@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head th:replace="~{fragments/header :: head}">
+    <title></title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<div class="container">
+    <table>
+        <thead>
+        <tr>
+            <th class="p-1">Title</th>
+            <th class="p-1">Author</th>
+            <th class="p-1">Created</th>
+            <th class="p-1">Modified</th>
+            <th class="p-1"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="blog : ${blogs}">
+            <td class="p-1" th:text="${blog.title}"></td>
+            <td class="p-1" th:text="${blog.author}"></td>
+            <td class="p-1" th:text="${#dates.format(blog.created)}"></td>
+            <td class="p-1" th:text="${#dates.format(blog.modified)}"></td>
+            <td class="col-2 p-1">
+                <form method="post" th:action="@{/blogs/delete}" th:object="${dto}" class="inline">
+                    <a th:href="@{/blogs/upsert(id=${blog.id})}" class="btn btn-primary inline">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <input type="hidden" th:field="*{id}" th:value="${blog.id}">
+                    <a onclick="this.parentNode.submit();" class="btn btn-danger">
+                        <i class="bi bi-x-square-fill"></i>
+                    </a>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head th:fragment="head">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>David Ziegelbauer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/css/photobox.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css"  rel="stylesheet">
+</head>
+<body>
+    <header th:fragment="header">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" th:href="@{/}">Homepage</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" th:href="@{/}">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarBlogDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Blog
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarBlogDropdown">
+                                <li><a class="dropdown-item" th:href="@{/blogs}">Read</a></li>
+                                <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item" th:href="@{/blogs/upsert}">Create</a></li>
+                                <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item" th:href="@{/blogs/manage}">Manage</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarAboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                About Me
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarAboutDropdown">
+                                <li><a class="dropdown-item" th:href="@{/about/bio}">Bio</a></li>
+                                <li><a class="dropdown-item" th:href="@{/about/resume}">Resume</a></li>
+                                <li><a class="dropdown-item" th:href="@{/about/certifications}">Certifications</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarCatsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Cats
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarCatsDropdown">
+                                <li><a class="dropdown-item" th:href="@{/cats}">Admire Them!</a></li>
+                                <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item" th:href="@{/cats/upload}">Upload</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarManageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Manage
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarManageDropdown">
+                                <li><a class="dropdown-item" th:href="@{/users}">Users</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item" sec:authorize="isAuthenticated()">
+                            <a class="nav-link text-dark" th:href="@{/auth/manage}">Account</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="isAuthenticated()">
+                            <a class="nav-link text-dark" th:href="@{/auth/logout}">Logout</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="!isAuthenticated()">
+                            <a class="nav-link text-dark" th:href="@{/auth/register}">Register</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="!isAuthenticated()">
+                            <a class="nav-link text-dark" th:href="@{/auth/login}">Login</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+</body>
+</html>
