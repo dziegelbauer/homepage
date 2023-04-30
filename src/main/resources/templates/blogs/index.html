@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head th:replace="~{fragments/header :: head}">
+  <title></title>
+</head>
+<body>
+  <header th:replace="~{fragments/header :: header}"></header>
+
+<div>
+  <!--/*@thymesVar id="blogs" type="java.lang.Iterable<org.ziegelbauer.homepage.models.Blog>"*/-->
+  <div th:each="blog : ${blogs}" class="container">
+    <h2 th:text="${blog.title}"></h2>
+    <p><i th:text="${'by ' + blog.author + ' ' + #dates.format(blog.created)}"></i></p>
+    <div th:remove="tag" th:utext="${blog.body}"></div>
+  </div>
+</div>
+
+  <footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>
