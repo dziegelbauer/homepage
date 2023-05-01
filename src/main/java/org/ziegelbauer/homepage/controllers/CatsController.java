@@ -1,48 +1,38 @@
 package org.ziegelbauer.homepage.controllers;
 
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.ziegelbauer.homepage.data.AWSS3Repository;
 import org.ziegelbauer.homepage.data.CatPictureRepository;
 import org.ziegelbauer.homepage.models.CatPicture;
 import org.ziegelbauer.homepage.models.dto.CatPictureDTO;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/cats")
 @RequiredArgsConstructor
 public class CatsController {
     private final CatPictureRepository catPictureRepository;
+    private final AWSS3Repository catPictureFileRepository;
 
     @GetMapping
     public String index(Model model) {
-        var ids = catPictureRepository.findAllId();
-        List<CatPictureDTO> cats = ids.stream().map(CatPictureDTO::new).toList();
+        var catPics = catPictureRepository.findAll();
+        List<CatPictureDTO> cats = new ArrayList<>();
+        for (var catPic : catPics) {
+            cats.add(new CatPictureDTO(catPic.getId(), "https://david-ziegelbauer-cat-images.s3.amazonaws.com/" + catPic.getFileName()));
+        }
         model.addAttribute("cats", cats);
         return "cats/index";
-    }
-
-    @GetMapping(path = "/picture/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public void picture(@PathVariable int id, HttpServletResponse response) throws IOException {
-        var searchResult = catPictureRepository.findById(id);
-        if(searchResult.isPresent()) {
-            var catPic = searchResult.get();
-            response.setContentType(catPic.getFileType());
-            response.setHeader("Content-Disposition", "attachment; filename=" + catPic.getId());
-            response.setHeader("Pragma", "no-cache");
-            response.setHeader("Cache-Control", "no-cache");
-            response.getOutputStream().write(catPic.getData());
-        } else {
-            response.setStatus(404);
-        }
     }
 
     @GetMapping("/upload")
@@ -56,9 +46,14 @@ public class CatsController {
         catPic.setId(null);
         catPic.setTitle("");
         catPic.setFileType(file.getContentType());
-        catPic.setData(file.getBytes());
+        var newFileName = UUID.randomUUID().toString();
+        if(file.getOriginalFilename().contains(".")) {
+            var fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+            newFileName = newFileName + "." + fileExtension;
+        }
+        catPic.setFileName(newFileName);
         catPic.setUploaded(Date.from(Instant.now()));
-
+        catPictureFileRepository.uploadFile(newFileName, file.getInputStream(), "david-ziegelbauer-cat-images");
         catPictureRepository.save(catPic);
 
         return "redirect:/cats";

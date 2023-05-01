@@ -18,5 +18,5 @@ public class CatPicture {
     private String title;
     private Date uploaded;
     private String fileType;
-    private byte[] data;
+    private String fileName;
 }

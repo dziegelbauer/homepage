@@ -7,4 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class CatPictureDTO {
     private int id;
+    private String path;
 }

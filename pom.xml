@@ -42,6 +42,11 @@
             <artifactId>commons-fileupload</artifactId>
             <version>1.5</version>
         </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>1.12.459</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
