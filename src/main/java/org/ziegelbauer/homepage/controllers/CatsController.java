@@ -1,6 +1,7 @@
 package org.ziegelbauer.homepage.controllers;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +17,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/cats")
 @RequiredArgsConstructor
+@Slf4j
 public class CatsController {
     private final CatPictureRepository catPictureRepository;
     private final AWSS3Repository catPictureFileRepository;
@@ -53,8 +56,12 @@ public class CatsController {
         }
         catPic.setFileName(newFileName);
         catPic.setUploaded(Date.from(Instant.now()));
-        catPictureFileRepository.uploadFile(newFileName, file.getInputStream(), "david-ziegelbauer-cat-images");
-        catPictureRepository.save(catPic);
+        try {
+            catPictureFileRepository.uploadFile(newFileName, file.getInputStream(), "david-ziegelbauer-cat-images");
+            catPictureRepository.save(catPic);
+        } catch (Exception e) {
+            log.info(e.getMessage());
+        }
 
         return "redirect:/cats";
     }

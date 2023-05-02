@@ -46,14 +46,15 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model) {
+        model.addAttribute("dto", new LoginRequestDTO());
         return "auth/login";
     }
 
-    @PostMapping("/login")
-    public String login(@RequestBody LoginRequestDTO dto) {
-        return "index";
-    }
+//    @PostMapping("/login")
+//    public String login(@ModelAttribute("dto") LoginRequestDTO dto) {
+//        return "index";
+//    }
 
     @GetMapping("/logout")
     public String logout() {

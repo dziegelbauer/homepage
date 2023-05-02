@@ -15,16 +15,21 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, UserDetailsService users) throws Exception {
         return http
-                .authorizeHttpRequests((authorize) -> authorize
+                .authorizeHttpRequests()
                         .requestMatchers("/users", "/blogs/create", "/blogs/manage", "/cats/upload")
                         .hasAuthority("ROLE_ADMIN")
                         .anyRequest().permitAll()
-                )
-                .formLogin((form) -> form
-                        .loginPage("/auth/login")
-                        .permitAll()
-                )
-                .logout().logoutSuccessUrl("/auth/login")
+                .and()
+                .formLogin()
+                    .loginPage("/auth/login")
+                    .defaultSuccessUrl("https://david.ziegelbauer.org/", true)
+                    .permitAll()
+                .and()
+                .logout()
+                    .logoutSuccessUrl("/auth/login")
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID")
+                    .permitAll()
                 .and()
                 .rememberMe((rememberMe) -> rememberMe.userDetailsService(users))
                 .build();
