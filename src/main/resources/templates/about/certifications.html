@@ -3,16 +3,36 @@
       xmlns:th="http://www.thymeleaf.org"
       lang="en">
 <head th:replace="~{fragments/header :: head}">
-  <title></title>
+    <title></title>
 </head>
 <body>
-  <header th:replace="~{fragments/header :: header}"></header>
+<header th:replace="~{fragments/header :: header}"></header>
 
-  <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-  </div>
 
-  <footer th:replace="~{fragments/footer :: footer}"></footer>
+<div class="container">
+    <h4>Certifications Held</h4>
+    <div class="row">
+        <div class="col">
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="a983e877-4df3-42f9-8506-25d3c841dd82"
+                 data-share-badge-host="https://www.credly.com"></div>
+            <script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+        </div>
+        <div class="col">
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="f57b8902-462b-42d7-a235-0fa9c606492b"
+                 data-share-badge-host="https://www.credly.com"></div>
+            <script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+        </div>
+        <div class="col">
+            <div>
+                <a href="https://catalog-education.oracle.com/pls/certview/sharebadge?id=BA4E290CA055B0A876E1E06D2142499448ACBA31589400D68EE81D6870938F45">
+                    <img src="https://brm-workforce.oracle.com/pdf/certview/images/JAVA8OJA.png"
+                         width="95" height="72" alt="Security+">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>

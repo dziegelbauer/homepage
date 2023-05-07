@@ -24,3 +24,10 @@ server:
   port: 5000
   tomcat:
     uri-encoding: UTF-8
+management:
+  endpoints:
+    enabled-by-default: false
+  endpoint:
+    env:
+      enabled: true
+      show-values: WHEN_AUTHORIZED

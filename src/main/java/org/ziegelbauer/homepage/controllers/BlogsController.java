@@ -1,5 +1,6 @@
 package org.ziegelbauer.homepage.controllers;
 
+import com.amazonaws.services.kms.model.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -49,7 +50,7 @@ public class BlogsController {
                 dto.setBody(blog.get().getBody());
                 dto.setAuthor(blog.get().getAuthor());
             } else {
-                return "error";
+                throw new NotFoundException(String.format("Blog with Id: %d not found", dto.getId()));
             }
         }
 
@@ -78,7 +79,7 @@ public class BlogsController {
                 blog.setBody(dto.getBody());
                 blog.setModified(Date.from(Instant.now()));
             } else {
-                return "error";
+                throw new NotFoundException(String.format("Blog with Id: %d not found", dto.getId()));
             }
         }
         blogRepository.save(blog);

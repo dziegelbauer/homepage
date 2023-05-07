@@ -24,3 +24,11 @@ server:
   port: 8080
   tomcat:
     uri-encoding: UTF-8
+  error:
+    include-stacktrace: always
+management:
+  endpoints:
+    enabled-by-default: false
+  endpoint:
+    env:
+      enabled: true

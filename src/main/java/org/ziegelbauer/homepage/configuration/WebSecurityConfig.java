@@ -16,6 +16,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, UserDetailsService users) throws Exception {
         return http
                 .authorizeHttpRequests()
+                        .requestMatchers("/api/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/actuator/**").hasAuthority("ROLE_ADMIN")
                         .requestMatchers("/users", "/blogs/create", "/blogs/manage", "/cats/upload")
                         .hasAuthority("ROLE_ADMIN")
                         .anyRequest().permitAll()
