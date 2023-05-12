@@ -1,5 +1,6 @@
 package org.ziegelbauer.homepage.configuration;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,19 +13,21 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
+    @Value("${app.login.redirect}")
+    private String loginRedirect;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, UserDetailsService users) throws Exception {
         return http
                 .authorizeHttpRequests()
                         .requestMatchers("/api/**").hasAuthority("ROLE_ADMIN")
                         .requestMatchers("/actuator/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers("/users", "/blogs/create", "/blogs/manage", "/cats/upload")
+                        .requestMatchers("/users**", "/blogs/create", "/blogs/manage", "/cats/upload")
                         .hasAuthority("ROLE_ADMIN")
                         .anyRequest().permitAll()
                 .and()
                 .formLogin()
                     .loginPage("/auth/login")
-                    .defaultSuccessUrl("https://david.ziegelbauer.org/", true)
+                    .defaultSuccessUrl(loginRedirect, true)
                     .permitAll()
                 .and()
                 .logout()

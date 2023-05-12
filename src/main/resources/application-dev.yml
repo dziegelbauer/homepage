@@ -32,3 +32,6 @@ management:
   endpoint:
     env:
       enabled: true
+app:
+  login:
+    redirect: "/"

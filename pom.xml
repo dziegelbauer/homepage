@@ -52,10 +52,6 @@
             <artifactId>aws-java-sdk-s3</artifactId>
             <version>1.12.459</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-hateoas</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -31,3 +31,6 @@ management:
     env:
       enabled: true
       show-values: WHEN_AUTHORIZED
+app:
+  login:
+    redirect: "https://david.ziegelbauer.org/"

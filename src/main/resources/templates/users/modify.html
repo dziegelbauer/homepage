@@ -10,16 +10,22 @@
 
   <div class="container pb-2">
     <!--/*@thymesVar id="dto" type="org.ziegelbauer.homepage.models.dto.ModifyUserDTO"*/-->
-    <form method="post" th:object="${dto}">
+    <form method="post" th:object="${dto}" th:action="@{/users/modify}">
       <input type="hidden" th:field="*{id}"/>
       <div class="row pb-2">
         <div class="col form-group">
           <label for="firstName" class="form-label">First Name:</label>
-          <input th:field="*{firstName}" id="firstName" type="text" class="form-control" placeholder="First Name"/>
+          <input th:field="*{firstName}" id="firstName" type="text" class="form-control" placeholder="First Name"
+                 data-val="true" data-val-required="A first name is required."/>
+          <span class="text-danger field-validation-valid" data-valmsg-for="firstName"
+                data-valmsg-replace="true"></span>
         </div>
         <div class="col form-group">
           <label for="lastName" class="form-label">Last Name:</label>
-          <input th:field="*{lastName}" id="lastName" type="text" class="form-control" placeholder="Last Name"/>
+          <input th:field="*{lastName}" id="lastName" type="text" class="form-control" placeholder="Last Name"
+                 data-val="true" data-val-required="A last name is required."/>
+          <span class="text-danger field-validation-valid" data-valmsg-for="lastName"
+                data-valmsg-replace="true"></span>
         </div>
       </div>
       <div class="row pb-2">

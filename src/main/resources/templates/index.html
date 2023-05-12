@@ -4,16 +4,21 @@
       data-bs-theme="light"
       lang="en">
 <head th:replace="~{fragments/header :: head}">
-  <title></title>
+    <title></title>
 </head>
 <body>
-  <header th:replace="~{fragments/header :: header}"></header>
+<header th:replace="~{fragments/header :: header}"></header>
 
-  <div class="text-center">
+<div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Welcome to David Ziegelbauer's homepage</p>
-  </div>
+</div>
+<div class="container text-left">
+  <p>I'm David and this is my homepage.</p>
+  <p>This site is a demo application written in Java using Spring, Thymeleaf, Bootstrap, MySQL, and AWS.
+    It is intended to be a tool for me to develop my skills and demonstrate them for potential employers.
+    The source code can be found at <a href="https://https://github.com/dziegelbauer/homepage">Github</a>.</p>
+</div>
 
-  <footer th:replace="~{fragments/footer :: footer}"></footer>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>
