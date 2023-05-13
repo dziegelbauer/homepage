@@ -2,21 +2,22 @@ package org.ziegelbauer.homepage.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import org.ziegelbauer.homepage.data.UserRepository;
-import org.ziegelbauer.homepage.models.User;
 import org.ziegelbauer.homepage.models.dto.LoginRequestDTO;
 import org.ziegelbauer.homepage.models.dto.RegisterUserDTO;
+import org.ziegelbauer.homepage.models.exceptions.PasswordsDoNotMatchException;
+import org.ziegelbauer.homepage.models.exceptions.UserAlreadyExistsException;
+import org.ziegelbauer.homepage.services.UserService;
 
 @Controller
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
-    private final UserRepository userRepository;
-    private final PasswordEncoder encoder;
+    private final UserService userService;
 
     @GetMapping("/register")
     public String register(Model model) {
@@ -25,22 +26,21 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute("dto") RegisterUserDTO dto) {
-        if(!dto.getPassword().equals(dto.getConfirmPassword())) {
+    public String register(@ModelAttribute("dto") RegisterUserDTO dto, Model model, BindingResult result)
+    {
+        try {
+            userService.registerUser(dto);
+        } catch (PasswordsDoNotMatchException e) {
+            ObjectError passwordError = new ObjectError("password", e.getMessage());
+            result.addError(passwordError);
+            model.addAttribute("dto", dto);
+            return "auth/register";
+        } catch (UserAlreadyExistsException e) {
+            ObjectError usernameError = new ObjectError("email", e.getMessage());
+            result.addError(usernameError);
+            model.addAttribute("dto", dto);
             return "auth/register";
         }
-
-        var user = new User();
-        user.setEmail(dto.getEmail());
-        user.setUsername(dto.getEmail());
-        user.setHashedPassword(encoder.encode(dto.getPassword()));
-        user.setFirstName(dto.getFirstName());
-        user.setLastName(dto.getLastName());
-        user.setDisplayName(dto.getFirstName() + " " + dto.getLastName());
-        user.setAdmin(false);
-        user.setId(null);
-
-        userRepository.save(user);
 
         return "index";
     }
@@ -50,11 +50,6 @@ public class AuthController {
         model.addAttribute("dto", new LoginRequestDTO());
         return "auth/login";
     }
-
-//    @PostMapping("/login")
-//    public String login(@ModelAttribute("dto") LoginRequestDTO dto) {
-//        return "index";
-//    }
 
     @GetMapping("/logout")
     public String logout() {

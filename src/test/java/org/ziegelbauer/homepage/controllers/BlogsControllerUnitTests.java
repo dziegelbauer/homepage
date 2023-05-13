@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.ziegelbauer.homepage.configuration.WebSecurityConfig;
-import org.ziegelbauer.homepage.data.BlogRepository;
 import org.ziegelbauer.homepage.models.Blog;
+import org.ziegelbauer.homepage.services.BlogService;
 
 import java.time.Instant;
 import java.util.Date;
@@ -28,11 +28,11 @@ public class BlogsControllerUnitTests {
     private MockMvc mockMvc;
 
     @MockBean
-    private BlogRepository blogRepository;
+    private BlogService blogService;
 
     @Test
     void indexReturnsRootPage() throws Exception {
-        when(blogRepository.findAll()).thenReturn(List.of(
+        when(blogService.loadAll()).thenReturn(List.of(
                 new Blog(1, "Blog1", "Blog1 Text", "Blog1 Author", Date.from(Instant.now()), Date.from(Instant.now()))
         ));
 
@@ -44,7 +44,7 @@ public class BlogsControllerUnitTests {
 
     @Test
     void manageRequiresAuthentication() throws Exception {
-        when(blogRepository.findAll()).thenReturn(List.of(
+        when(blogService.loadAll()).thenReturn(List.of(
                 new Blog(1, "Blog1", "Blog1 Text", "Blog1 Author", Date.from(Instant.now()), Date.from(Instant.now()))
         ));
 
@@ -55,7 +55,7 @@ public class BlogsControllerUnitTests {
     @Test
     @WithMockUser
     void manageRequiresAdminRole() throws Exception {
-        when(blogRepository.findAll()).thenReturn(List.of(
+        when(blogService.loadAll()).thenReturn(List.of(
                 new Blog(1, "Blog1", "Blog1 Text", "Blog1 Author", Date.from(Instant.now()), Date.from(Instant.now()))
         ));
 
@@ -66,7 +66,7 @@ public class BlogsControllerUnitTests {
     @Test
     @WithMockUser(roles = "ADMIN")
     void manageAllowsAdmin() throws Exception {
-        when(blogRepository.findAll()).thenReturn(List.of(
+        when(blogService.loadAll()).thenReturn(List.of(
                 new Blog(1, "Blog1", "Blog1 Text", "Blog1 Author", Date.from(Instant.now()), Date.from(Instant.now()))
         ));
 

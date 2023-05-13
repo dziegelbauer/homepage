@@ -7,6 +7,7 @@ import java.util.Date;
 
 @Data
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Blog {

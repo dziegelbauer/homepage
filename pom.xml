@@ -10,7 +10,7 @@
     </parent>
     <groupId>org.ziegelbauer</groupId>
     <artifactId>homepage</artifactId>
-    <version>0.1.5</version>
+    <version>0.1.6</version>
     <name>homepage</name>
     <description>homepage</description>
     <properties>
