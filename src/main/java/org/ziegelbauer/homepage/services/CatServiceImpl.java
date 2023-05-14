@@ -9,6 +9,7 @@ import org.ziegelbauer.homepage.data.CatPictureRepository;
 import org.ziegelbauer.homepage.models.CatPicture;
 import org.ziegelbauer.homepage.models.dto.CatPictureDTO;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.time.Instant;
@@ -20,6 +21,8 @@ import java.util.*;
 public class CatServiceImpl implements CatService {
     private final CatPictureRepository catPictureRepository;
     private final AWSS3Repository catPictureFileRepository;
+
+    private static final String CAT_STORAGE = "david-ziegelbauer-cat-images";
 
     @Override
     public List<CatPictureDTO> loadAll() {
@@ -51,8 +54,27 @@ public class CatServiceImpl implements CatService {
                 newFileName);
 
         try {
-            catPictureFileRepository.uploadFile(newFileName, file.getInputStream(), "david-ziegelbauer-cat-images");
+            catPictureFileRepository.uploadFile(newFileName, file.getInputStream(), CAT_STORAGE);
             catPictureRepository.save(catPic);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public void delete(int id) throws FileNotFoundException {
+        Optional<CatPicture> searchResult = catPictureRepository.findById(id);
+
+        if(searchResult.isEmpty()) {
+            throw new FileNotFoundException(String.format("No picture with id: %d found.", id));
+        }
+
+        CatPicture catPicture = searchResult.get();
+
+        try {
+            catPictureFileRepository.deleteFile(catPicture.getFileName(), CAT_STORAGE);
+            catPictureRepository.delete(catPicture);
         } catch (Exception e) {
             log.error(e.getMessage());
             throw e;
