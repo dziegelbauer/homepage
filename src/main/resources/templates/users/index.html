@@ -18,7 +18,7 @@
         </tr>
         </thead>
         <tbody>
-        <!--/*@thymesVar id="users" type="java.lang.Iterable<org.ziegelbauer.homepage.models.User>"*/-->
+        <!--/*@thymesVar id="users" type="java.lang.Iterable<org.ziegelbauer.homepage.models.authentication.User>"*/-->
         <tr th:each="user : ${users}">
             <td class="p-1" th:text="${user.displayName}"></td>
             <td class="p-1" th:text="${user.email}"></td>

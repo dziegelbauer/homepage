@@ -6,7 +6,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.ziegelbauer.homepage.data.UserRepository;
-import org.ziegelbauer.homepage.models.User;
+import org.ziegelbauer.homepage.models.authentication.ExternalOAuth2User;
+import org.ziegelbauer.homepage.models.authentication.OAuthProvider;
+import org.ziegelbauer.homepage.models.authentication.User;
 import org.ziegelbauer.homepage.models.dto.ModifyUserDTO;
 import org.ziegelbauer.homepage.models.dto.RegisterUserDTO;
 import org.ziegelbauer.homepage.models.exceptions.PasswordsDoNotMatchException;
@@ -97,5 +99,24 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         userRepository.save(user);
+    }
+
+    @Override
+    public User processOAuth2PostLogin(ExternalOAuth2User oAuth2User) {
+        Optional<User> searchResult = userRepository.findByUsername(oAuth2User.getEmail());
+
+        if (searchResult.isEmpty()) {
+            User newUser = User.builder()
+                    .firstName(oAuth2User.getAttribute("given_name"))
+                    .lastName(oAuth2User.getAttribute("family_name"))
+                    .displayName(oAuth2User.getName())
+                    .email(oAuth2User.getEmail())
+                    .provider(OAuthProvider.GOOGLE)
+                    .build();
+
+            return userRepository.save(newUser);
+        }
+
+        return searchResult.get();
     }
 }

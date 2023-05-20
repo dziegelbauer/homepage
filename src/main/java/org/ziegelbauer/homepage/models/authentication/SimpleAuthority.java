@@ -1,4 +1,4 @@
-package org.ziegelbauer.homepage.models;
+package org.ziegelbauer.homepage.models.authentication;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,7 +1,7 @@
 package org.ziegelbauer.homepage.data;
 
 import org.springframework.data.repository.CrudRepository;
-import org.ziegelbauer.homepage.models.User;
+import org.ziegelbauer.homepage.models.authentication.User;
 
 import java.util.Optional;
 

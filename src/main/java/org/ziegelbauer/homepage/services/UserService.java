@@ -3,7 +3,8 @@ package org.ziegelbauer.homepage.services;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.ziegelbauer.homepage.models.User;
+import org.ziegelbauer.homepage.models.authentication.ExternalOAuth2User;
+import org.ziegelbauer.homepage.models.authentication.User;
 import org.ziegelbauer.homepage.models.dto.ModifyUserDTO;
 import org.ziegelbauer.homepage.models.dto.RegisterUserDTO;
 import org.ziegelbauer.homepage.models.exceptions.UserAlreadyExistsException;
@@ -21,4 +22,6 @@ public interface UserService extends UserDetailsService {
     void modifyUser(ModifyUserDTO dto);
 
     void registerUser(RegisterUserDTO dto) throws UserAlreadyExistsException;
+
+    User processOAuth2PostLogin(ExternalOAuth2User oAuthUSer);
 }

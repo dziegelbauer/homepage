@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.ziegelbauer.homepage.data.UserRepository;
-import org.ziegelbauer.homepage.models.User;
+import org.ziegelbauer.homepage.models.authentication.User;
 import org.ziegelbauer.homepage.models.dto.ModifyUserDTO;
 import org.ziegelbauer.homepage.models.dto.RegisterUserDTO;
 import org.ziegelbauer.homepage.models.exceptions.PasswordsDoNotMatchException;
