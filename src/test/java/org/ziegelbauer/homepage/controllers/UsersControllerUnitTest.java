@@ -9,7 +9,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.ziegelbauer.homepage.configuration.WebSecurityConfig;
 import org.ziegelbauer.homepage.models.dto.ModifyUserDTO;
-import org.ziegelbauer.homepage.services.ExternalOAuth2UserService;
 import org.ziegelbauer.homepage.services.UserService;
 import org.ziegelbauer.homepage.services.UserServiceImpl;
 
@@ -20,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = UsersController.class)
-@Import({WebSecurityConfig.class, UserServiceImpl.class, ExternalOAuth2UserService.class})
+@Import({WebSecurityConfig.class, UserServiceImpl.class})
 public class UsersControllerUnitTest {
     @Autowired
     private MockMvc mockMvc;

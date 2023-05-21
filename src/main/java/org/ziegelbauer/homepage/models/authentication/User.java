@@ -1,7 +1,13 @@
 package org.ziegelbauer.homepage.models.authentication;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -25,8 +31,6 @@ public class User implements UserDetails {
     private String lastName;
     private String displayName;
     private boolean isAdmin;
-    @Enumerated(EnumType.STRING)
-    private OAuthProvider provider;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
