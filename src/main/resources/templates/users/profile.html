@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head th:replace="~{fragments/header :: head}">
+    <title></title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<div class="container pb-2">
+    <!--/*@thymesVar id="dto" type="org.ziegelbauer.homepage.models.dto.ProfileUpdateDTO"*/-->
+    <form method="post" th:object="${dto}" th:action="@{/users/profile}">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="row pb-2">
+            <div class="col form-group">
+                <label for="firstName" class="form-label">First Name:</label>
+                <input th:field="*{firstName}" id="firstName" type="text" class="form-control" placeholder="First Name"
+                       data-val="true" data-val-required="A first name is required."/>
+                <span class="text-danger field-validation-valid" data-valmsg-for="firstName"
+                      data-valmsg-replace="true"></span>
+            </div>
+            <div class="col form-group">
+                <label for="lastName" class="form-label">Last Name:</label>
+                <input th:field="*{lastName}" id="lastName" type="text" class="form-control" placeholder="Last Name"
+                       data-val="true" data-val-required="A last name is required."/>
+                <span class="text-danger field-validation-valid" data-valmsg-for="lastName"
+                      data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="row pb-2">
+            <div class="col form-group">
+                <label for="resetPassword" class="form-check-label">Reset Password:</label>
+                <input th:field="*{resetPassword}" type="checkbox" id="resetPassword" class="form-check-input"/>
+            </div>
+        </div>
+        <div class="col form-group pb-2">
+            <label for="password" class="form-label">New Password:</label>
+            <input th:field="*{password}" id="password" type="password" class="form-control"
+                   placeholder="New Password" disabled
+                   data-val="true" data-val-required="A first name is required."/>
+            <span class="text-danger field-validation-valid" data-valmsg-for="password"
+                  data-valmsg-replace="true"></span>
+        </div>
+        <div class="col form-group pb-2">
+            <label for="confirmPassword" class="form-label">Confirm Password:</label>
+            <input th:field="*{confirmPassword}" id="confirmPassword" type="password" class="form-control"
+                   placeholder="Confirm Password" disabled
+                   data-val="true" data-val-required="A first name is required."/>
+            <span class="text-danger field-validation-valid" data-valmsg-for="confirmPassword"
+                  data-valmsg-replace="true"></span>
+        </div>
+        <div class="row">
+            <div class="col form-group">
+                <input type="submit" value="Save" class="btn btn-primary"/>
+            </div>
+            <div class="col form-group">
+                <a th:href="@{/}" class="btn btn-danger">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    const checkbox = document.getElementById('resetPassword')
+    const pwbox = document.getElementById('password')
+    const pwconfbox = document.getElementById('confirmPassword')
+
+    checkbox.addEventListener("change", () => {
+        if (checkbox.checked) {
+            pwbox.disabled = false
+            pwconfbox.disabled = false
+        } else {
+            pwbox.disabled = true
+            pwconfbox.disabled = true
+        }
+    });
+</script>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

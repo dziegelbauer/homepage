@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.ziegelbauer.homepage.data.UserRepository;
 import org.ziegelbauer.homepage.models.authentication.User;
 import org.ziegelbauer.homepage.models.dto.ModifyUserDTO;
+import org.ziegelbauer.homepage.models.dto.ProfileUpdateDTO;
 import org.ziegelbauer.homepage.models.dto.RegisterUserDTO;
 import org.ziegelbauer.homepage.models.exceptions.PasswordsDoNotMatchException;
 import org.ziegelbauer.homepage.models.exceptions.UserAlreadyExistsException;
@@ -71,6 +72,47 @@ public class UserServiceImpl implements UserService {
         user.setDisplayName(dto.getFirstName() + " " + dto.getLastName());
 
         userRepository.save(user);
+    }
+
+    @Override
+    public ProfileUpdateDTO loadProfileToUpdate(String username) {
+        Optional<User> searchResult = userRepository.findByUsername(username);
+
+        if (searchResult.isEmpty()) {
+            throw new UserNotFoundException(username);
+        }
+
+        User loggedInUser = searchResult.get();
+
+        return ProfileUpdateDTO.builder()
+                .firstName(loggedInUser.getFirstName())
+                .lastName(loggedInUser.getLastName())
+                .id(loggedInUser.getId())
+                .build();
+    }
+
+    @Override
+    public void updateProfile(ProfileUpdateDTO dto) {
+        Optional<User> searchResult = userRepository.findById(dto.getId());
+
+        if (searchResult.isEmpty()) {
+            throw new UserNotFoundException(Integer.toString(dto.getId()));
+        }
+
+        User userToUpdate = searchResult.get();
+
+        userToUpdate.setFirstName(dto.getFirstName());
+        userToUpdate.setLastName(dto.getLastName());
+
+        if (dto.isResetPassword()) {
+            if(!dto.getConfirmPassword().equals(dto.getPassword())) {
+                throw new PasswordsDoNotMatchException();
+            }
+
+            userToUpdate.setHashedPassword(encoder.encode(dto.getPassword()));
+        }
+
+        userRepository.save(userToUpdate);
     }
 
     @Override

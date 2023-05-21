@@ -25,6 +25,8 @@ public class WebSecurityConfig {
                             .hasAuthority("ROLE_ADMIN")
                         .requestMatchers("/actuator/**")
                             .hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/users/profile")
+                            .authenticated()
                         .requestMatchers("/users", "/users/**")
                             .hasAuthority("ROLE_ADMIN")
                         .requestMatchers("/blogs/create", "/blogs/manage", "/cats/upload")

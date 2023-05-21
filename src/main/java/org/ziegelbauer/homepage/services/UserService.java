@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.ziegelbauer.homepage.models.authentication.User;
 import org.ziegelbauer.homepage.models.dto.ModifyUserDTO;
+import org.ziegelbauer.homepage.models.dto.ProfileUpdateDTO;
 import org.ziegelbauer.homepage.models.dto.RegisterUserDTO;
 import org.ziegelbauer.homepage.models.exceptions.UserAlreadyExistsException;
 
@@ -19,6 +20,10 @@ public interface UserService extends UserDetailsService {
     ModifyUserDTO loadUserToModify(int id);
 
     void modifyUser(ModifyUserDTO dto);
+
+    ProfileUpdateDTO loadProfileToUpdate(String username);
+
+    void updateProfile(ProfileUpdateDTO dto);
 
     void registerUser(RegisterUserDTO dto) throws UserAlreadyExistsException;
 }
