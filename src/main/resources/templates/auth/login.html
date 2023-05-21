@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="en">
 <head th:replace="~{fragments/header :: head}">
   <title></title>
@@ -29,12 +28,6 @@
       </div>
       <div class="form-actions">
         <button type="submit" class="btn btn-primary">Log in</button>
-      </div>
-      <div><p>OR</p></div>
-      <div>
-        <a th:href="@{/oauth2/authorization/google}">
-          G
-        </a>
       </div>
     </fieldset>
   </form>
