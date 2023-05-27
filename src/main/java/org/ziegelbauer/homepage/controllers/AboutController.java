@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@SuppressWarnings("SameReturnValue")
 @Controller
 @RequestMapping("/about")
 @RequiredArgsConstructor
@@ -19,7 +20,7 @@ public class AboutController {
         return "about/bio";
     }
 
-    @GetMapping("resume")
+    @GetMapping("/resume")
     public String resume() {
         return "about/resume";
     }

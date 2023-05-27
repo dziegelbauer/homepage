@@ -20,7 +20,8 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .authorizeHttpRequests()
+                .authorizeHttpRequests(auth -> {
+                    auth
                         .requestMatchers("/api/**")
                             .hasAuthority("ROLE_ADMIN")
                         .requestMatchers("/actuator/**")
@@ -31,19 +32,19 @@ public class WebSecurityConfig {
                             .hasAuthority("ROLE_ADMIN")
                         .requestMatchers("/blogs/create", "/blogs/manage", "/cats/upload")
                             .hasAuthority("ROLE_ADMIN")
-                        .anyRequest().permitAll()
-                .and()
-                .formLogin()
-                    .loginPage("/auth/login")
-                    .defaultSuccessUrl(loginRedirect, true)
-                    .permitAll()
-                .and()
-                .logout()
-                    .logoutSuccessUrl("/auth/login")
-                    .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID")
-                    .permitAll()
-                .and()
+                        .anyRequest().permitAll();
+                })
+                .formLogin(options -> {
+                    options.loginPage("/auth/login")
+                            .defaultSuccessUrl(loginRedirect, true)
+                            .permitAll();
+                })
+                .logout(options -> {
+                    options.logoutSuccessUrl("/auth/login")
+                            .invalidateHttpSession(true)
+                            .deleteCookies("JSESSIONID")
+                            .permitAll();
+                })
                 .build();
     }
 
